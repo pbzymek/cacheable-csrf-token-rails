@@ -17,12 +17,12 @@ module CacheableCSRFTokenRails
       end
     end
 
-    ActionView::Helpers::FormTagHelper.class_eval do
+    ActionView::Helpers::UrlHelper.class_eval do
       alias_method :token_tag_rails, :token_tag
 
       def token_tag(token=nil)
         if token != false && protect_against_forgery?
-          tag(:input, :type => "hidden", :name => request_forgery_protection_token.to_s, :value => ApplicationController::TOKEN_PLACEHOLDER)
+          tag(:input, type: "hidden", name: request_forgery_protection_token.to_s, value: ApplicationController::TOKEN_PLACEHOLDER)
         else
           ''
         end
@@ -33,8 +33,8 @@ module CacheableCSRFTokenRails
       def csrf_meta_tags
         if protect_against_forgery?
           [
-            tag('meta', :name => 'csrf-param', :content => request_forgery_protection_token),
-            tag('meta', :name => 'csrf-token', :content => ApplicationController::TOKEN_PLACEHOLDER)
+            tag('meta', name: 'csrf-param', content: request_forgery_protection_token),
+            tag('meta', name: 'csrf-token', content: ApplicationController::TOKEN_PLACEHOLDER)
           ].join("\n").html_safe
         end
       end
